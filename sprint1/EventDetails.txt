@@ -1,0 +1,16 @@
+EventDetails class
+
+Attributes:
+
+id: auto generated
+name: string
+description: string
+location: string
+organizer: user
+header image: image
+main image: image
+start date & time: date
+end date & time: date
+total tickets: int
+tickets booked: int
+ticket price: float
