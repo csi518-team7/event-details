@@ -1,8 +1,5 @@
 package sprint1;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -24,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 public class EventDetailsController {
 
-    private static final Logger log = LoggerFactory.getLogger(Application.class);
-    
     private static ObjectMapper mapper = new ObjectMapper();
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -126,8 +121,7 @@ public class EventDetailsController {
 
         repository.save(new EventDetails(name, category, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
         return "success";
-    }
-    
+    }    
     
     @GetMapping("/show-all-events")
     public String showAllEvents() throws JsonProcessingException {
@@ -147,6 +141,7 @@ public class EventDetailsController {
         model.addAttribute("category", category);
         return mapper.writeValueAsString(repository.findByCategory(category));
     }
+
     @GetMapping("/show-by-organizer-id")
     public String showByOrganizerId(@RequestParam(name="organizerId", required=true) long organizerId, Model model)
             throws JsonProcessingException {
