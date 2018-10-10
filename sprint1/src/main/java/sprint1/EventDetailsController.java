@@ -61,7 +61,17 @@ public class EventDetailsController {
         Model model) throws MalformedURLException, ParseException {
 
         model.addAttribute("name", name);
-        repository.save(new EventDetails(name, "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-11-22"), df.parse("2018-11-23"), 1000, 100.00));
+        model.addAttribute("description", description);
+        model.addAttribute("location", location);
+        model.addAttribute("organizerId", organizerId);
+        model.addAttribute("thumbnailImageURL", thumbnailImageURL);
+        model.addAttribute("imageURL", imageURL);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("totalTickets", totalTickets);
+        model.addAttribute("ticketPrice", ticketPrice);
+        
+        repository.save(new EventDetails(name, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
         return "success";
     }
     
