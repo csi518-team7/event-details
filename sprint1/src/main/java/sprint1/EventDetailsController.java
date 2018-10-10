@@ -141,4 +141,11 @@ public class EventDetailsController {
         model.addAttribute("organizerId", organizerId);
         return mapper.writeValueAsString(repository.findByOrganizerId(organizerId));
     }
+
+    @GetMapping("/cancel-event")
+    public void cancelEvent(@RequestParam(name="id", required=true) long id, Model model)
+            throws JsonProcessingException {
+        model.addAttribute("id", id);
+        repository.delete(repository.findById(id).get());
+    }
 }
