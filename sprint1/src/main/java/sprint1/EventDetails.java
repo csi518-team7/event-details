@@ -21,31 +21,31 @@ public class EventDetails {
     private String location;
     private long organizerId;
     private URL thumbnailImageURL; 
-    private URL ImageURL;
+    private URL imageURL;
     private Date startDate;
     private Date endDate;
     private int totalTickets;
     private int ticketsBooked;
-    private float ticketPrice;
+    private double ticketPrice;
 
     // TODO Getters and Setters. Needed?
 
     protected EventDetails() {} // For JPA
 
     // TODO Starting with few details.
-    public EventDetails(String name, String description, String location, long organizerId,\
-                        URL thumbnailImageURL, URL ImageURL, Date startDate, Date endDate,\
-                        int totalTickets, int ticketsBooked, float ticketPrice) {
+    public EventDetails(String name, String description, String location, long organizerId,
+                        URL thumbnailImageURL, URL imageURL, Date startDate, Date endDate,
+                        int totalTickets, double ticketPrice) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.organizerId = organizerId;
         this.thumbnailImageURL = thumbnailImageURL;
-        this.ImageURL = ImageURL;
+        this.imageURL = imageURL;
         this.startDate = startDate;
         this.endDate = endDate;
         this.totalTickets = totalTickets;
-        this.ticketsBooked = ticketsBooked;
+        this.ticketsBooked = 0;
         this.ticketPrice = ticketPrice;
     }
 
@@ -74,7 +74,7 @@ public class EventDetails {
     }
     
     public URL getImageURL() {
-        return this.mainImageURL;
+        return this.imageURL;
     }
     
     public Date getStartDate() {
@@ -93,7 +93,7 @@ public class EventDetails {
         return this.ticketsBooked;
     }
     
-    public float getTicketPrice() {
+    public double getTicketPrice() {
         return this.ticketPrice;
     }
 

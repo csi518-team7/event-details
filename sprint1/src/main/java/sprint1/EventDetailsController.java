@@ -3,9 +3,13 @@ package sprint1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,9 +37,31 @@ public class EventDetailsController {
     private EventDetailsRepository repository;
 
     @GetMapping("/add-new-event")
-    public String add(@RequestParam(name="name", required=true) String name, Model model) throws ParseException {
+    public String add(
+        @RequestParam(name="name", required=true)
+        String name,
+        @RequestParam(name="description", required=false, defaultValue="")
+        String description,
+        @RequestParam(name="location", required=false, defaultValue="")
+        String location,
+        @RequestParam(name="organizerId", required=false, defaultValue="0")
+        long organizerId,
+        @RequestParam(name="thumbnailImageURL", required=false, defaultValue="")
+        URL thumbnailImageURL,
+        @RequestParam(name="imageURL", required=false, defaultValue="")
+        URL imageURL,
+        @RequestParam(name="startDate", required=true)
+        Date startDate,
+        @RequestParam(name="endDate", required=true)
+        Date endDate,
+        @RequestParam(name="totalTickets", required=true)
+        int totalTickets,
+        @RequestParam(name="ticketPrice", required=true)
+        float ticketPrice,
+        Model model) throws MalformedURLException, ParseException {
+
         model.addAttribute("name", name);
-        repository.save(new EventDetails(name, df.parse("2018-11-22")));
+        repository.save(new EventDetails(name, "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-11-22"), df.parse("2018-11-23"), 1000, 100.00));
         return "success";
     }
     
