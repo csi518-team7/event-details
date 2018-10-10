@@ -7,4 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface EventDetailsRepository extends CrudRepository<EventDetails, Long> {
     
     List<EventDetails> findByStartDate(Date startDate);
+
+    List<EventDetails> findByOrganizerId(long organizerId);
 }

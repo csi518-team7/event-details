@@ -2,7 +2,7 @@ package sprint1;
 
 // Reference: https://spring.io/guides/gs/accessing-data-jpa/
 
-//import java.net.URL; // Should we use URL instead of String?
+import java.net.URL;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -20,8 +20,8 @@ public class EventDetails {
     private String description;
     private String location;
     private long organizerId;
-    private String headerImageURL; 
-    private String mainImageURL;
+    private URL headerImageURL; 
+    private URL mainImageURL;
     private Date startDate;
     private Date endDate;
     private int totalTickets;
@@ -38,9 +38,57 @@ public class EventDetails {
         this.startDate = startDate;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+    
+    public String getLocation() {
+        return this.location;
+    }
+    
+    public long getOrganizerId() {
+        return this.organizerId;
+    }
+    
+    public URL getHeaderImageURL() {
+        return this.headerImageURL;
+    }
+    
+    public URL getMainImageURL() {
+        return this.mainImageURL;
+    }
+    
+    public Date getStartDate() {
+        return this.startDate;
+    }
+    
+    public Date getEndDate() {
+        return this.endDate;
+    }
+    
+    public int getTotalTickets() {
+        return this.totalTickets;
+    }
+    
+    public int getTicketsBooked() {
+        return this.ticketsBooked;
+    }
+    
+    public float getTicketPrice() {
+        return this.ticketPrice;
+    }
+
     @Override
     public String toString() {
         // TODO A proper toString() implementation.
-        return "[" + name + ", " + startDate + "]";
+        return "[" + this.name + ", " + this.startDate + "]";
     }
 }
