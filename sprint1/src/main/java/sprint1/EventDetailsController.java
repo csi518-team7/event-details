@@ -40,6 +40,8 @@ public class EventDetailsController {
     public String add(
         @RequestParam(name="name", required=true)
         String name,
+        @RequestParam(name="category", required=false, defaultValue="")
+        String category,
         @RequestParam(name="description", required=false, defaultValue="")
         String description,
         @RequestParam(name="location", required=false, defaultValue="")
@@ -61,6 +63,7 @@ public class EventDetailsController {
         Model model) throws MalformedURLException, ParseException {
 
         model.addAttribute("name", name);
+        model.addAttribute("category", category);
         model.addAttribute("description", description);
         model.addAttribute("location", location);
         model.addAttribute("organizerId", organizerId);
@@ -71,7 +74,7 @@ public class EventDetailsController {
         model.addAttribute("totalTickets", totalTickets);
         model.addAttribute("ticketPrice", ticketPrice);
         
-        repository.save(new EventDetails(name, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
+        repository.save(new EventDetails(name, category, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
         return "success";
     }
 
@@ -81,6 +84,8 @@ public class EventDetailsController {
         long id,
         @RequestParam(name="name", required=true)
         String name,
+        @RequestParam(name="category", required=false, defaultValue="")
+        String category,
         @RequestParam(name="description", required=false, defaultValue="")
         String description,
         @RequestParam(name="location", required=false, defaultValue="")
@@ -108,6 +113,7 @@ public class EventDetailsController {
             return "failed";
         }
         model.addAttribute("name", name);
+        model.addAttribute("category", category);
         model.addAttribute("description", description);
         model.addAttribute("location", location);
         model.addAttribute("organizerId", organizerId);
@@ -118,7 +124,7 @@ public class EventDetailsController {
         model.addAttribute("totalTickets", totalTickets);
         model.addAttribute("ticketPrice", ticketPrice);
 
-        repository.save(new EventDetails(name, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
+        repository.save(new EventDetails(name, category, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
         return "success";
     }
     
@@ -135,6 +141,12 @@ public class EventDetailsController {
         return mapper.writeValueAsString(repository.findByStartDate(df.parse(startDate)));
     }
 
+    @GetMapping("/show-by-category")
+    public String showByCategory(@RequestParam(name = "category", required = true) String category, Model model)
+            throws JsonProcessingException, ParseException {
+        model.addAttribute("category", category);
+        return mapper.writeValueAsString(repository.findByCategory(category));
+    }
     @GetMapping("/show-by-organizer-id")
     public String showByOrganizerId(@RequestParam(name="organizerId", required=true) long organizerId, Model model)
             throws JsonProcessingException {

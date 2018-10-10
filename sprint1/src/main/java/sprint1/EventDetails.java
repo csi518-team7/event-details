@@ -17,6 +17,7 @@ public class EventDetails {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
     private String name;
+    private String category;
     private String description;
     private String location;
     private long organizerId;
@@ -33,10 +34,11 @@ public class EventDetails {
     protected EventDetails() {} // For JPA
 
     // TODO Starting with few details.
-    public EventDetails(String name, String description, String location, long organizerId,
-                        URL thumbnailImageURL, URL imageURL, Date startDate, Date endDate,
-                        int totalTickets, double ticketPrice) {
+    public EventDetails(String name, String category, String description, String location,
+                        long organizerId, URL thumbnailImageURL, URL imageURL, Date startDate,
+                        Date endDate, int totalTickets, double ticketPrice) {
         this.name = name;
+        this.category = category;
         this.description = description;
         this.location = location;
         this.organizerId = organizerId;
@@ -49,14 +51,18 @@ public class EventDetails {
         this.ticketPrice = ticketPrice;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
     public long getId() {
         return this.id;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+    
     public String getDescription() {
         return this.description;
     }

@@ -8,5 +8,7 @@ public interface EventDetailsRepository extends CrudRepository<EventDetails, Lon
     
     List<EventDetails> findByStartDate(Date startDate);
 
+    List<EventDetails> findByCategory(String category);
+
     List<EventDetails> findByOrganizerId(long organizerId);
 }

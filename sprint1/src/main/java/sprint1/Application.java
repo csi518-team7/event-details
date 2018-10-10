@@ -25,9 +25,9 @@ public class Application {
 	@Bean
 	public CommandLineRunner demo(EventDetailsRepository repository) {
 		return (args) -> {
-			repository.save(new EventDetails("Halloween", "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-10-30"), df.parse("2018-10-31"), 1000, 100.00));
-			repository.save(new EventDetails("Thanksgiving", "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-11-22"), df.parse("2018-11-23"), 1000, 100.00));
-			repository.save(new EventDetails("Christmas", "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-12-25"), df.parse("2018-12-26"), 1000, 100.00));
+			repository.save(new EventDetails("Halloween", "Festival", "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-10-30"), df.parse("2018-10-31"), 1000, 100.00));
+			repository.save(new EventDetails("Thanksgiving", "Festival", "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-11-22"), df.parse("2018-11-23"), 1000, 100.00));
+			repository.save(new EventDetails("Christmas", "Festival", "", "", 0L, new URL("http://localhost/"), new URL("http://localhost/"), df.parse("2018-12-25"), df.parse("2018-12-26"), 1000, 100.00));
 			
 			log.info("EventDetails found with findAll():");
 			log.info("-------------------------------");
