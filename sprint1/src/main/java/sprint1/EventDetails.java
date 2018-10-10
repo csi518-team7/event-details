@@ -20,8 +20,8 @@ public class EventDetails {
     private String description;
     private String location;
     private long organizerId;
-    private URL headerImageURL; 
-    private URL mainImageURL;
+    private URL thumbnailImageURL; 
+    private URL ImageURL;
     private Date startDate;
     private Date endDate;
     private int totalTickets;
@@ -33,9 +33,20 @@ public class EventDetails {
     protected EventDetails() {} // For JPA
 
     // TODO Starting with few details.
-    public EventDetails(String name, Date startDate) {
+    public EventDetails(String name, String description, String location, long organizerId,\
+                        URL thumbnailImageURL, URL ImageURL, Date startDate, Date endDate,\
+                        int totalTickets, int ticketsBooked, float ticketPrice) {
         this.name = name;
+        this.description = description;
+        this.location = location;
+        this.organizerId = organizerId;
+        this.thumbnailImageURL = thumbnailImageURL;
+        this.ImageURL = ImageURL;
         this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalTickets = totalTickets;
+        this.ticketsBooked = ticketsBooked;
+        this.ticketPrice = ticketPrice;
     }
 
     public String getName() {
@@ -58,11 +69,11 @@ public class EventDetails {
         return this.organizerId;
     }
     
-    public URL getHeaderImageURL() {
-        return this.headerImageURL;
+    public URL getThumbnailImageURL() {
+        return this.thumbnailImageURL;
     }
     
-    public URL getMainImageURL() {
+    public URL getImageURL() {
         return this.mainImageURL;
     }
     
