@@ -1,38 +1,30 @@
 package sprint1;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.net.URL;
+import java.util.List;
+import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.NoSuchElementException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
+@RequestMapping("/api/event-details/")
 public class EventDetailsController {
 
-    private static ObjectMapper mapper = new ObjectMapper();
-    private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-    EventDetailsController() {
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
-    }
+    private static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private EventDetailsRepository repository;
 
-    @GetMapping("/add-new-event")
-    public String add(
+    @GetMapping("/add-new")
+    public EventDetails add(
         @RequestParam(name="name", required=true)
         String name,
         @RequestParam(name="category", required=false, defaultValue="")
@@ -48,9 +40,9 @@ public class EventDetailsController {
         @RequestParam(name="imageURL", required=false, defaultValue="")
         URL imageURL,
         @RequestParam(name="startDate", required=true)
-        Date startDate,
+        String startDate,
         @RequestParam(name="endDate", required=true)
-        Date endDate,
+        String endDate,
         @RequestParam(name="totalTickets", required=true)
         int totalTickets,
         @RequestParam(name="ticketPrice", required=true)
@@ -69,12 +61,11 @@ public class EventDetailsController {
         model.addAttribute("totalTickets", totalTickets);
         model.addAttribute("ticketPrice", ticketPrice);
         
-        repository.save(new EventDetails(name, category, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
-        return "success";
+        return repository.save(new EventDetails(name, category, description, location, organizerId, thumbnailImageURL, imageURL, df.parse(startDate), df.parse(endDate), totalTickets, ticketPrice));
     }
 
-    @GetMapping("/modify-event")
-    public String modify(
+    @GetMapping("/modify")
+    public boolean modify(
         @RequestParam(name="id", required=true)
         long id,
         @RequestParam(name="name", required=true)
@@ -85,73 +76,79 @@ public class EventDetailsController {
         String description,
         @RequestParam(name="location", required=false, defaultValue="")
         String location,
-        @RequestParam(name="organizerId", required=false, defaultValue="0")
-        long organizerId,
         @RequestParam(name="thumbnailImageURL", required=false, defaultValue="")
         URL thumbnailImageURL,
         @RequestParam(name="imageURL", required=false, defaultValue="")
         URL imageURL,
         @RequestParam(name="startDate", required=true)
-        Date startDate,
+        String startDate,
         @RequestParam(name="endDate", required=true)
-        Date endDate,
+        String endDate,
         @RequestParam(name="totalTickets", required=true)
         int totalTickets,
         @RequestParam(name="ticketPrice", required=true)
         float ticketPrice,
         Model model) throws MalformedURLException, ParseException {
 
+        EventDetails updated;
         model.addAttribute("id", id);
         try {
-            repository.findById(id).get();
+            updated = repository.findById(id).get();
         } catch (NoSuchElementException e) {
-            return "failed";
+            return false;
         }
         model.addAttribute("name", name);
+        updated.setName(name);
         model.addAttribute("category", category);
+        updated.setCategory(category);
         model.addAttribute("description", description);
+        updated.setDescription(description);
         model.addAttribute("location", location);
-        model.addAttribute("organizerId", organizerId);
+        updated.setLocation(location);
         model.addAttribute("thumbnailImageURL", thumbnailImageURL);
+        updated.setThumbnailImageURL(thumbnailImageURL);
         model.addAttribute("imageURL", imageURL);
+        updated.setImageURL(imageURL);
         model.addAttribute("startDate", startDate);
+        updated.setStartDate(df.parse(startDate));
         model.addAttribute("endDate", endDate);
+        updated.setEndDate(df.parse(endDate));
         model.addAttribute("totalTickets", totalTickets);
+        updated.setTotalTickets(totalTickets);
         model.addAttribute("ticketPrice", ticketPrice);
+        updated.setTicketPrice(ticketPrice);
 
-        repository.save(new EventDetails(name, category, description, location, organizerId, thumbnailImageURL, imageURL, startDate, endDate, totalTickets, ticketPrice));
-        return "success";
+        repository.save(updated);
+        return true;
     }    
     
-    @GetMapping("/show-all-events")
-    public String showAllEvents() throws JsonProcessingException {
-        return mapper.writeValueAsString(repository.findAll());
+    @GetMapping("/show-all")
+    public Iterable<EventDetails> showAllEvents() {
+        return repository.findAll();
     }
-
+    
     @GetMapping("/show-by-start-date")
-    public String showByStartDate(@RequestParam(name = "startDate", required = true) String startDate, Model model)
-            throws JsonProcessingException, ParseException {
+    public List<EventDetails> showByStartDate(@RequestParam(name = "startDate", required = true) String startDate, Model model)
+            throws ParseException {
         model.addAttribute("startDate", startDate);
-        return mapper.writeValueAsString(repository.findByStartDate(df.parse(startDate)));
+        return repository.findByStartDate(df.parse(startDate));
     }
 
     @GetMapping("/show-by-category")
-    public String showByCategory(@RequestParam(name = "category", required = true) String category, Model model)
-            throws JsonProcessingException, ParseException {
+    public List<EventDetails> showByCategory(@RequestParam(name = "category", required = true) String category, Model model)
+            throws ParseException {
         model.addAttribute("category", category);
-        return mapper.writeValueAsString(repository.findByCategory(category));
+        return repository.findByCategory(category);
     }
 
     @GetMapping("/show-by-organizer-id")
-    public String showByOrganizerId(@RequestParam(name="organizerId", required=true) long organizerId, Model model)
-            throws JsonProcessingException {
+    public List<EventDetails> showByOrganizerId(@RequestParam(name="organizerId", required=true) long organizerId, Model model) {
         model.addAttribute("organizerId", organizerId);
-        return mapper.writeValueAsString(repository.findByOrganizerId(organizerId));
+        return repository.findByOrganizerId(organizerId);
     }
 
-    @GetMapping("/cancel-event")
-    public void cancelEvent(@RequestParam(name="id", required=true) long id, Model model)
-            throws JsonProcessingException {
+    @GetMapping("/cancel")
+    public void cancelEvent(@RequestParam(name="id", required=true) long id, Model model) {
         model.addAttribute("id", id);
         repository.delete(repository.findById(id).get());
     }

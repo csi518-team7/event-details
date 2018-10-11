@@ -1,0 +1,82 @@
+"Documentation" for the u[Goo]gly version of EventDetails
+===============================================
+
+COMMENT It is ugly but it works. My initial experience with Spring: https://youtu.be/ZkwrIZQDt50
+TODO Follow a proper tutorial for creating a Spring API. Perhaps this https://spring.io/guides/tutorials/rest/
+
+1. Add new event
+
+/api/event-details/add-new?name={0}&category={1}&description={2}&location={3}&organizerId={4}&thumbnailImageURL={5}&imageURL={6}&startDate={7}&endDate={8}&totalTickets={9}&ticketPrice={10}
+{0} - name: String
+{1} - category: String
+{2} - description: String
+{3} - location: String
+{4} - organizerId: long
+{5} - thumbnailImageURL: URL
+{6} - imageURL: URL
+{7} - startDate: String (format: yyyy-MM-dd)
+{8} - endDate: String (format: yyyy-MM-dd)
+{9} - totalTicket: int
+{10} - ticketPrice: double
+
+Example:
+http://localhost:8080/api/event-details/add-new?name=NewYear&startDate=2019-01-01&endDate=2019-01-02&totalTickets=100&ticketPrice=1.0
+
+
+
+2. Modify existing event
+
+/api/event-details/modify?id={0}&name={1}&category={2}&description={3}&location={4}&thumbnailImageURL={5}&imageURL={6}&startDate={7}&endDate={8}&totalTickets={9}&ticketPrice={10}
+{0} - id: long
+{1} - name: String
+{2} - category: String
+{3} - description: String
+{4} - location: String
+{5} - thumbnailImageURL: URL
+{6} - imageURL: URL
+{7} - startDate: String (format: yyyy-MM-dd)
+{8} - endDate: String (format: yyyy-MM-dd)
+{9} - totalTicket: int
+{10} - ticketPrice: double
+
+Example:
+http://localhost:8080/api/event-details/modify?id=1&name=Halloween&startDate=2018-10-30&endDate=2018-10-31&totalTickets=100&ticketPrice=1.0
+
+
+
+3. Show all events (No arguments)
+
+/api/event-details/show-all
+
+Example:
+http://localhost:8080/api/event-details/show-all
+
+
+
+4. Show events by start date
+
+/api/event-details/show-by-start-date?startDate={0}
+{0} - startDate: String (format: yyyy-MM-dd)
+
+Example:
+http://localhost:8080/api/event-details/show-by-start-date?startDate=2018-11-22
+
+
+
+5. Show events by category
+
+/api/event-details/show-by-category?category={0}
+{0} - category: String
+
+Example:
+http://localhost:8080/api/event-details/show-by-category?category=Festival
+
+
+
+6. Cancel an event
+
+/api/event-details/cancel?id={0}
+{0} - id: long
+
+Example:
+http://localhost:8080/api/event-details/cancel?id=2
