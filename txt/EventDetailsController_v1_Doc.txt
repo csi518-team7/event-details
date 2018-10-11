@@ -1,5 +1,5 @@
 "Documentation" for the u[Goo]gly version of EventDetails
-===============================================
+==========================================================
 
 COMMENT It is ugly but it works. My initial experience with Spring: https://youtu.be/ZkwrIZQDt50
 TODO Follow a proper tutorial for creating a Spring API. Perhaps this https://spring.io/guides/tutorials/rest/
